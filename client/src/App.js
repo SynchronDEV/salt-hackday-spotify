@@ -1,5 +1,8 @@
 import React from 'react';
-import './App.css';
+import Playlist from './components/playlist/playlist';
+import Navbar from './components/navbar/navbar';
+import Footer from './components/footer/footer';
+import './App.scss';
 
 function App() {
   const [playlists, setPlaylists] = React.useState([]);
@@ -21,8 +24,8 @@ function App() {
                         })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        setPlaylists(data.items)
+        console.log(data[0]);
+        setPlaylists(data[0])
       })
       .catch(e => console.error(e));
   }
@@ -53,7 +56,6 @@ function App() {
 
       // send playlistId & arrayOfUris to back-end
   }
-
   const getPlaylistTracks = (playlistId) => {
     const accessObject = { token: accessCookie, playlistId }
     fetch('/playlists/tracks', { method: 'POST', 
@@ -76,21 +78,27 @@ function App() {
   
   return (
     <div className="App">
-      <a href="http://localhost:8080/login">
-        <button>Hit me!</button>
-      </a>
-      <button onClick={getPlaylists}>Get my Playlists</button>
-
-      <br /><br /><br /><br /><br />
-      <div className="playlists">
-        {playlists.map((playlist, index) => {
-          return (<button key={index} onClick={() => getPlaylistTracks(playlist.id)}>{playlist.name}</button>)
-        })}
-      </div>
-      <br /><br /><br /><br /><br />
-      {trackUris.map((uri, index) => {
-          return (<button key={index}>{uri.uri}</button>)
-        })}
+      <Navbar />
+      <section className="body">
+        <a href="http://localhost:8080/login">
+          <button className="btn--login">Login to Spotify</button>
+        </a>
+        <div className="playlists">
+        <h3>Select Your Playlist:</h3>
+        <button onClick={getPlaylists}>Get my Playlists</button><br/>
+        <div className="playlists--wrapper">
+          <div className="playlists--container">
+          {playlists.map((playlist, index) => {
+            // return (<button key={index} onClick={() => getPlaylistTracks(playlist.id)}>{playlist.name}</button>)
+            console.log(playlist);
+            return (<Playlist key={index} playlist={playlist} getPlaylistTracks={getPlaylistTracks}/>)
+          })}
+          </div>
+        </div>
+        </div>
+        
+      </section>
+      <Footer/>
     </div>
   );
 }

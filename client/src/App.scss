@@ -1,0 +1,72 @@
+.App {
+  text-align: center;
+  font-family: 'HelveticaNeue';
+  background-color: #f8f8f8;
+}
+
+.body {
+  margin-top: 150px;
+  padding: 20px 0px;
+  height: 100%;
+}
+a {
+  text-decoration: none;
+  color: #33a0e1;
+  &:hover {
+    color: #2884ba;
+  }
+}
+.btn--login {
+  margin: 0px 20px;
+  font-size: 20px;
+  line-height: 1.2;
+  border-radius: 500px;
+  padding: 17px 56px 15px;
+  color: #fff;
+  background-color: #2ebd59;
+  transition: background-color .15s ease,border-color .15s ease,color .15s ease;
+  border-width: 0;
+  letter-spacing: 1.2px;
+  min-width: 130px;
+  text-transform: uppercase;
+  white-space: normal;
+  border-color: #29a84f;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.playlists {
+  
+  h3 {
+    font-size: 30px;
+  }
+  &--wrapper {
+
+  }
+  &--container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    justify-items: center;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .playlists--container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .playlists--container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+@media only screen and (min-width: 960px) {
+  .playlist--container {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

@@ -5,8 +5,6 @@ const querystring = require("querystring");
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser')
 
-
-
 const client_id = "a715c856c2a34af8a909afa11ee5776a"; // Client id
 const client_secret = "cc857b696ba34860b34dab4ad3725d82"; // Secret
 const redirect_uri = "http://localhost:8080/callback"; // Redirect uri
@@ -45,7 +43,7 @@ app.get("/login", function(req, res) {
   let state = generateRandomString(16);
   res.cookie(stateKey, state);
 
-  // your application requests authorization
+  // application requests authorization
   let scope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private user-top-read";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -60,8 +58,7 @@ app.get("/login", function(req, res) {
 });
 
 app.get("/callback", function(req, res) {
-  // your application requests refresh and access tokens
-  // after checking the state parameter
+  // application requests refresh and access tokens after checking the state parameter
   let code = req.query.code || null;
   let state = req.query.state || null;
   let storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -70,7 +67,7 @@ app.get("/callback", function(req, res) {
     res.redirect("/#" + querystring.stringify({ error: "state_mismatch" }));
   } else {
     res.clearCookie(stateKey);
-    // your application requests authorization
+    // application requests authorization
     const params = {
       client_id,
       client_secret,
@@ -143,15 +140,26 @@ app.get("/refresh_token", function(req, res) {
     });
 });
 
-app.post("/playlists", (req, res) => {
+app.post("/playlists", (req, res) => { // REFACTOR TO GET https://stackoverflow.com/questions/34543622/how-can-i-send-data-through-fetch-api-by-get-request
   const access_token = req.body.token;
+  let currentUser = '';
+  axios.get('https://api.spotify.com/v1/me/', { headers: { Authorization: `Bearer ${access_token}` } })
+  .then(response => {
 
+    currentUser = response.data.uri
+    console.log('CURRENTUSER', currentUser);
+  })
+  .catch(e => console.error(e));
+  
   axios.get('https://api.spotify.com/v1/me/playlists?limit=50', { headers: { Authorization: `Bearer ${access_token}` } })
-  .then(response => res.send(response.data))
+  .then(response => {
+    const playlistsOwnedByCurrentUser = response.data.items.filter(playlist => playlist.owner.uri === currentUser)
+    res.send([playlistsOwnedByCurrentUser])
+  })
   .catch(e => console.error(e));
 })
 
-app.post("/playlists/tracks", (req, res) => {
+app.post("/playlists/tracks", (req, res) => { // REFACTOR TO GET
 
   const { token, playlistId } = req.body;
   axios.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, { headers: { Authorization: `Bearer ${token}` } })
@@ -172,7 +180,7 @@ app.delete("/playlists/tracks", (req, res) => {
   .catch(e => console.error(e));
 })
 
-app.post("/playlists/tracks/add", (req, res) => {
+app.post("/playlists/tracks/add", (req, res) => { //REFACTOR TO /playlists/tracks
   const { token, tracks, playlistId } = req.body;
   const newUriArrayForAdding = tracks.map(({uri}) => uri)
   axios.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, { "uris": newUriArrayForAdding },
