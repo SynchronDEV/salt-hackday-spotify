@@ -25,7 +25,7 @@ const playlist = ({ playlist, getPlaylistTracks }) => {
       
     </div>
     <div className="btn-group" role="group" aria-label="...">
-      <a href={playlist.external_urls.spotify}><button type="button" className="btn btn-view">View Playlist</button></a>
+      <a href={playlist.external_urls.spotify} target="_blank"><button type="button" className="btn btn-view">View Playlist</button></a>
       <button type="button" className="btn btn-refresh" onClick={() => getPlaylistTracks(playlist.id)}>Refresh Playlist</button>
       </div>
     </div>

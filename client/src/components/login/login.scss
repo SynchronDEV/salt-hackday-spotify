@@ -1,0 +1,27 @@
+a {
+  transition: .3s ease;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.btn--login {
+  margin: 0px 20px;
+  font-size: 20px;
+  line-height: 1.2;
+  border-radius: 500px;
+  padding: 17px 56px 15px;
+  color: #fff;
+  background-color: #2ebd59;
+  border-width: 0;
+  letter-spacing: 1.2px;
+  min-width: 130px;
+  text-transform: uppercase;
+  white-space: normal;
+  border-color: #29a84f;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-top: 20px;
+
+}
