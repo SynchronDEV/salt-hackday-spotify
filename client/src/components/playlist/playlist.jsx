@@ -1,9 +1,8 @@
 import React from 'react'
 import * as _ from 'lodash';
-import './playlist.scss'
+import './playlist.scss';
 
-const playlist = ({ playlist, getPlaylistTracks }) => {
-
+const Playlist = ({ playlist, getPlaylistTracks }) => {
 
 
   const src = _.get(playlist, 'images[0].url', '');
@@ -25,44 +24,14 @@ const playlist = ({ playlist, getPlaylistTracks }) => {
       
     </div>
     <div className="btn-group" role="group" aria-label="...">
-      <a href={playlist.external_urls.spotify} target="_blank"><button type="button" className="btn btn-view">View Playlist</button></a>
-      <button type="button" className="btn btn-refresh" onClick={() => getPlaylistTracks(playlist.id)}>Refresh Playlist</button>
+      <a href={playlist.external_urls.spotify} target="_blank" rel="noopener noreferrer"><button type="button" className="btn btn-view">View Playlist</button></a>
+      <button type="button" className="btn btn-refresh" onClick={() => 
+        getPlaylistTracks(playlist.id)
+        }>Refresh Playlist</button>
       </div>
     </div>
+
   )
 }
 
-export default playlist;
-
-// <Card style={{ width: '18rem' }}>
-    //   <Card.Img variant="top" src="holder.js/100px180" />
-    //   <Card.Body>
-    //     <Card.Title>Card Title</Card.Title>
-    //     <Card.Text>
-    //       Some quick example text to build on the card title and make up the bulk of
-    //       the card's content.
-    //     </Card.Text>
-    //     <Button variant="primary">Go somewhere</Button>
-    //   </Card.Body>
-    // </Card>
-    // ----------------------------------
-    // <div classNameName="playlist">
-    //   <div classNameName="playlist--header">
-    //   <h6>Playlist</h6>
-    //   <h4>{playlist.name}</h4>
-    //   </div>
-
-    //   <h5>{playlist.tracks.total} Tracks</h5>
-      
-    //   <img src={src} alt="playlist_image" />
-    //   <div classNameName="actions">
-    //     <a href={playlist.external_urls.spotify}><button>View Playlist (On Spotify)</button></a>
-    //     <button onClick={() => getPlaylistTracks(playlist.id)}>Refresh Playlist</button>
-    //     {/* <div className="btn-group" role="group" aria-label="...">
-    //       <button type="button" className="btn btn-default">Left</button>
-    //       <button type="button" className="btn btn-default">Middle</button>
-    //       <button type="button" className="btn btn-default">Right</button>
-    //     </div> */}
-    //   </div>
-    // </div>
-    // ----
+export default Playlist;

@@ -11,7 +11,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
-    console.log('FIRST!');
     const cookie = document.cookie.split('=')[1];
     
     setAccessCookie(cookie);
@@ -24,16 +23,13 @@ function App() {
   }, [])
 
   const getPlaylists = (cookie) => {
-    console.log('GOT HERE');
     const accessObject = { token: cookie }
-    console.log('OBJ', accessObject)
     fetch('/playlists', { method: 'POST', 
                           headers: { 'Content-Type': 'application/json' }, 
                           body: JSON.stringify(accessObject)
                         })
       .then(res => res.json())
       .then(data => {
-        console.log(data[0]);
         setPlaylists(data[0])
       })
       .catch(e => console.error(e));
@@ -72,7 +68,6 @@ function App() {
           const uriObject = {uri: song.track.uri};
           return uriObject;
         });
-        console.log('SONGDATA', songData);
         sendUrisToBackendForRemoval(accessObject.token, accessObject.playlistId, trackUris);
       })
       .catch(e => console.error(e));
@@ -88,7 +83,6 @@ function App() {
         <div className="playlists--wrapper">
           <div className="playlists--container">
           {playlists.map((playlist, index) => {
-            console.log(playlist);
             return (<Playlist key={index} playlist={playlist} getPlaylistTracks={getPlaylistTracks}/>)
           })}
           </div>
